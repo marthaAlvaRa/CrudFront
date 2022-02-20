@@ -44,6 +44,7 @@ const abrirCerrarModalEliminar=()=>{
   setModalEliminar(!modalEliminar);
 }
 
+
   const peticionGet=async()=>{
     await axios.get(baseUrl)
     .then(response=>{
@@ -56,14 +57,30 @@ const abrirCerrarModalEliminar=()=>{
   const peticionPost=async()=>{
     delete reciboSelect.id;
     reciboSelect.monto=parseFloat(reciboSelect.monto);
+    const prov=reciboSelect.proveedor;
+    const monto=reciboSelect.monto;
+    const moneda=reciboSelect.moneda;
+    const fecha=reciboSelect.fecha;
+    const comentario=reciboSelect.comentario;
+    const p=prov.length;
+    const m=monto.length;
+    const mo=moneda.length;
+    const f=fecha.length;
+    const c=comentario.length;
+    if((p===0) || (m===0) || (mo===0) || (f===0) || (c===0)){
+      alert("Por favor, llene todos los campos");
+    }
     await axios.post(baseUrl,reciboSelect)
     .then(response=>{
       setData(data.concat(response.data));
       abrirCerrarModalInsertar();
+      delete reciboSelect.id;
+      window.location.reload ();
     }).catch(error=>{
       console.log(error);
     })
-  }
+  
+}
 
   const cerrarSesion=()=>{
     history.push('./');

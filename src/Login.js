@@ -21,21 +21,31 @@ function Login(props) {
 });
 console.log(form); 
 } 
+    const util=form.usuario;
+    const pw=form.passwd;
+    const n=util.length;
+    const m=pw.length;
 
 const iniciarSesion=async()=>{
+  if(n===0 || m===0){
+  alert("Introduzca un usuario y una contraseña");
+}
   await axios.get(baseUrl2+`/${form.usuario}/${form.passwd}`)
   .then(response=>{
     return response.data;
   }).then (response=>{
-    if(response.length>0){
+     if(response.length>0){
       var respuesta=response[0];
-      alert("Bienvenido");
+      alert("Bienvenido "+ util)
       history.push('/App');
       console.log(respuesta);
     }else{
       alert('El usuario o la contraseña no son correctos');
+      
     }
+  
   })
+
   .catch(error=>{
     console.log(error);
   })
